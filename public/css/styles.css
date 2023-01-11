@@ -1,0 +1,233 @@
+body {
+    margin: 0;
+}
+
+.title1 {
+    display:table;
+    width: 100%;
+    height:80px;
+    padding: 0px;
+    color: white;
+    background-color:rgb(84, 84, 84);
+}
+
+.title2 {
+    height: 60px;
+    display:table-cell;
+    vertical-align: middle;
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+.title2 h1 {
+    margin:10px;
+}
+
+.userName {
+    height: 100%;
+    position:relative;
+}
+
+.userName span {
+    width:400px;
+    font-size: 1.2em;
+    text-align:right;
+    margin:0;
+    position:absolute;
+    right: 10px;
+    bottom: 10px;;
+}
+
+.userName p {
+    width:400px;
+    font-size: 1.2em;
+    text-align:right;
+    margin:0;
+    position:absolute;
+    right:10px;
+    bottom:10px;
+}
+
+footer {
+    position: absolute;
+    bottom:0%;
+    width: 100%;
+    height: 56px;
+    background-color: rgb(0, 64, 107);
+    color: white;
+}
+
+.footerTitle {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.editTask {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.editTask input {
+    width: 650px;
+    height: 30px;
+}
+
+.editError {
+    color: red;
+    font-size:1.3em;
+}
+
+.editBack1 {
+    text-align: center;
+    margin-bottom: 40px;
+    height: 100px;
+}
+
+.editBack2 {
+    display: inline-block;
+    width: 70px;
+    height: 50px;
+    font-size: 1.2em;
+    vertical-align:middle;
+}
+
+.editBack3 {
+    display: inline-block;
+    margin: 8px;
+}
+
+.goEdit {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.goEdit button {
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    font-size: 1.2em;
+    background-color:rgb(0, 64, 107);
+    color: white;
+}
+
+.taskTable1 {
+    margin: 10px;
+}
+
+.taskTable2 {
+    margin: auto;
+    max-width: 900px;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    overflow:hidden;
+}
+
+.taskTable2 table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.taskTable2 thead {
+    border-bottom: 2px solid #000000;
+    background-color:lightgray;
+}
+
+.taskTable2 thead th {
+    padding: 8px;
+}
+
+.taskTable2 #thTask {
+    border-right: 2px solid #000000;
+}
+
+.taskTable2 tbody tr {
+    border-top: 1px solid #000000;
+}
+
+.complete1 {
+    width: 200px;
+    height: 50px;
+    padding: 0%;
+}
+
+.complete2 {
+    width:100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.complete3 {
+    text-align:center;height: 50px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.complete3 form {
+    height: 50px; vertical-align: middle;
+}
+
+.complete3 button {
+    display: table-cell;
+    width: 60px;
+    height: 50px;
+    vertical-align: middle;
+    background-color: aqua;
+}
+
+.edit {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    margin-left: 35px;
+}
+
+.delete {
+    text-align:center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.delete form {
+    height: 50px;
+    vertical-align: middle;
+}
+
+.delete button {
+    display: table-cell;
+    width: 60px; height: 50px;
+    vertical-align: middle;
+    background-color:crimson;
+    color: white;
+}
+
+.todo {
+    font-size: 1.5em;
+    margin-top: 20px
+}
+
+.todo p {
+    text-align: center;
+    margin-top:50px;
+}
+
+.todoInput {
+    text-align: center;
+}
+
+.todoInput input {
+    width: 750px;
+    height: 30px;
+}
+
+.todoInput button {
+    width: 80px;
+    height: 30px;
+}
+
+.taskName {
+    margin-left: 10px;
+}
