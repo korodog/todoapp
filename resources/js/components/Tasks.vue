@@ -10,10 +10,13 @@
                 tasks: [],
                 comp_check: false,
                 comp_tasks: [],
+                task_name: '',
+                delete_check: [],
             }
         },
         mounted() {
             let vm = this;
+            
             axios.get('/auth')
                 .then(function (response) {
                     vm.auth = response.data;
@@ -45,8 +48,27 @@
                 })
             },
 
+            select_delete() {
+                console.log(this.delete_check);
+                axios.post("/select_delete", {select_data: this.delete_check})
+                .then(function (response) {
+                })
+            },
+
             taskComp(id) {
                 axios.post("/comp/" + id)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                console.info(error)
+                })
+            },
+
+            add_task() {
+                axios.post("/", {
+                    task_name: this.task_name
+                })
                 .then(response => {
                     console.log(response);
                 })
@@ -79,15 +101,22 @@
         <div class="todo">
             <p>やること</p>
         </div>
-        <form action="/" method="post">
+        <form>
             <div class="todoInput">
                 <label>
-                    <input type="text" placeholder="今日やることを記入して下さい。" name="task_name">
+                    <input type="text" placeholder="今日やることを記入して下さい。" name="task_name" v-model="task_name">
                 </label>
-                <button type="submit">追加する</button>
+                <button @click="add_task()" type="submit">追加する</button>
             </div>
         </form>
-        <span>完了済みのタスクを表示</span><input type="checkbox" v-model="comp_check">
+        <span>完了済みタスクを表示</span><input type="checkbox" v-model="comp_check">
+        <div v-if="comp_check" class="delete">
+            <form @click="select_delete(delete_check)">
+                <button type="submit">
+                    まとめて削除
+                </button>
+            </form>
+        </div>
         <div v-if="comp_check">
             <div class="taskTable1">
                 <div class="taskTable2">
@@ -110,20 +139,13 @@
                                     <td class="complete1">
                                         <div class="complete2">
                                             <div class="complete3">
-                                                <form @click="taskComp(comp_task.id)">
-                                                    <input type="hidden" name="_token" :value="csrf">
-                                                    <input type="hidden" name="task_status" :value="true">
-                                                    <button type="submit">
-                                                        完了
-                                                    </button>
-                                                </form>
+                                                <input type="checkbox" :value="comp_task.id" v-model="delete_check">
                                             </div>
                                             <div class="edit">
                                                 <a :href="'/edit/' + comp_task.id">編集</a>
                                             </div>
                                             <div class="delete">
                                                 <form @click="taskDelete(comp_task.id)">
-                                                    <input type="hidden" name="_token" :value="csrf">
                                                     <button type="submit">
                                                         削除
                                                     </button>

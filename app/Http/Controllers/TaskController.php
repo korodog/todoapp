@@ -39,15 +39,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'task_name' => 'required|max:100',
-        ];
-
-        $messages = [
-            'required' => '必須項目です。',
-            'max' => '100文字以内にして下さい。',
-        ];
-        Validator::make($request->all(), $rules, $messages)->validate();
+        Log::debug($request);
 
         $task = new Task;
         $task->name = $request->input('task_name');
@@ -109,6 +101,20 @@ class TaskController extends Controller
     public function destroy($id)
     {
         Task::where('id', $id)->delete();
+
+        return redirect('/');
+    }
+
+    public function select_delete(Request $request)
+    {
+        log::debug($request->select_data);
+
+        foreach($request->select_data as $val)
+        {
+            Task::where('id', $val)->delete();
+        }
+
+        Task::where('id', $request->id)->delete();
 
         return redirect('/');
     }

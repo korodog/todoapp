@@ -25,6 +25,7 @@ Route::post('/edit/{id}', 'TaskController@edit');
 Route::get('/edit/{id}', 'TaskController@edit');
 Route::post('/update/{id}', 'TaskController@update');
 Route::get('/comp_tasks', 'TaskController@comp_tasks');
+Route::post('/select_delete', 'TaskController@select_delete');
 
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/auth', 'AuthController@authUser');

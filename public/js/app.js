@@ -5378,7 +5378,9 @@ __webpack_require__.r(__webpack_exports__);
       authCheck: [],
       tasks: [],
       comp_check: false,
-      comp_tasks: []
+      comp_tasks: [],
+      task_name: '',
+      delete_check: []
     };
   },
   mounted: function mounted() {
@@ -5404,8 +5406,23 @@ __webpack_require__.r(__webpack_exports__);
     taskDelete: function taskDelete(id) {
       axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/delete/" + id).then(function (response) {});
     },
+    select_delete: function select_delete() {
+      console.log(this.delete_check);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/select_delete", {
+        select_data: this.delete_check
+      }).then(function (response) {});
+    },
     taskComp: function taskComp(id) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/comp/" + id).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.info(error);
+      });
+    },
+    add_task: function add_task() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/", {
+        task_name: this.task_name
+      }).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
         console.info(error);
@@ -5536,7 +5553,39 @@ var render = function render() {
     attrs: {
       href: "/register"
     }
-  }, [_vm._v("登録")]), _vm._v(")")])])])]), _vm._v(" "), _vm.authCheck ? _c("div", [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("span", [_vm._v("完了済みのタスクを表示")]), _c("input", {
+  }, [_vm._v("登録")]), _vm._v(")")])])])]), _vm._v(" "), _vm.authCheck ? _c("div", [_vm._m(1), _vm._v(" "), _c("form", [_c("div", {
+    staticClass: "todoInput"
+  }, [_c("label", [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.task_name,
+      expression: "task_name"
+    }],
+    attrs: {
+      type: "text",
+      placeholder: "今日やることを記入して下さい。",
+      name: "task_name"
+    },
+    domProps: {
+      value: _vm.task_name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.task_name = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("button", {
+    attrs: {
+      type: "submit"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.add_task();
+      }
+    }
+  }, [_vm._v("追加する")])])]), _vm._v(" "), _c("span", [_vm._v("完了済みタスクを表示")]), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5567,11 +5616,23 @@ var render = function render() {
         }
       }
     }
-  }), _vm._v(" "), _vm.comp_check ? _c("div", [_c("div", {
+  }), _vm._v(" "), _vm.comp_check ? _c("div", {
+    staticClass: "delete"
+  }, [_c("form", {
+    on: {
+      click: function click($event) {
+        return _vm.select_delete(_vm.delete_check);
+      }
+    }
+  }, [_c("button", {
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("\n                まとめて削除\n            ")])])]) : _vm._e(), _vm._v(" "), _vm.comp_check ? _c("div", [_c("div", {
     staticClass: "taskTable1"
   }, [_c("div", {
     staticClass: "taskTable2"
-  }, [_c("table", [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.comp_tasks, function (comp_task) {
+  }, [_c("table", [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.comp_tasks, function (comp_task) {
     return _c("tr", {
       key: comp_task.id
     }, [_c("td", [_c("div", {
@@ -5582,33 +5643,39 @@ var render = function render() {
       staticClass: "complete2"
     }, [_c("div", {
       staticClass: "complete3"
-    }, [_c("form", {
+    }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.delete_check,
+        expression: "delete_check"
+      }],
+      attrs: {
+        type: "checkbox"
+      },
+      domProps: {
+        value: comp_task.id,
+        checked: Array.isArray(_vm.delete_check) ? _vm._i(_vm.delete_check, comp_task.id) > -1 : _vm.delete_check
+      },
       on: {
-        click: function click($event) {
-          return _vm.taskComp(comp_task.id);
+        change: function change($event) {
+          var $$a = _vm.delete_check,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false;
+          if (Array.isArray($$a)) {
+            var $$v = comp_task.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.delete_check = $$a.concat([$$v]));
+            } else {
+              $$i > -1 && (_vm.delete_check = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            }
+          } else {
+            _vm.delete_check = $$c;
+          }
         }
       }
-    }, [_c("input", {
-      attrs: {
-        type: "hidden",
-        name: "_token"
-      },
-      domProps: {
-        value: _vm.csrf
-      }
-    }), _vm._v(" "), _c("input", {
-      attrs: {
-        type: "hidden",
-        name: "task_status"
-      },
-      domProps: {
-        value: true
-      }
-    }), _vm._v(" "), _c("button", {
-      attrs: {
-        type: "submit"
-      }
-    }, [_vm._v("\n                                                    完了\n                                                ")])])]), _vm._v(" "), _c("div", {
+    })]), _vm._v(" "), _c("div", {
       staticClass: "edit"
     }, [_c("a", {
       attrs: {
@@ -5622,15 +5689,7 @@ var render = function render() {
           return _vm.taskDelete(comp_task.id);
         }
       }
-    }, [_c("input", {
-      attrs: {
-        type: "hidden",
-        name: "_token"
-      },
-      domProps: {
-        value: _vm.csrf
-      }
-    }), _vm._v(" "), _c("button", {
+    }, [_c("button", {
       attrs: {
         type: "submit"
       }
@@ -5639,7 +5698,7 @@ var render = function render() {
     staticClass: "taskTable1"
   }, [_c("div", {
     staticClass: "taskTable2"
-  }, [_c("table", [_vm._m(4), _vm._v(" "), _c("tbody", _vm._l(_vm.tasks, function (task) {
+  }, [_c("table", [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.tasks, function (task) {
     return _c("tr", {
       key: task.id
     }, [_c("td", [_c("div", {
@@ -5703,7 +5762,7 @@ var render = function render() {
         type: "submit"
       }
     }, [_vm._v("\n                                                    削除\n                                                ")])])])])])]);
-  }), 0)])])])])]) : _c("div", [_c("p", [_vm._v("※ログインして下さい。")])]), _vm._v(" "), _vm._m(5)]);
+  }), 0)])])])])]) : _c("div", [_c("p", [_vm._v("※ログインして下さい。")])]), _vm._v(" "), _vm._m(4)]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -5717,27 +5776,6 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "todo"
   }, [_c("p", [_vm._v("やること")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("form", {
-    attrs: {
-      action: "/",
-      method: "post"
-    }
-  }, [_c("div", {
-    staticClass: "todoInput"
-  }, [_c("label", [_c("input", {
-    attrs: {
-      type: "text",
-      placeholder: "今日やることを記入して下さい。",
-      name: "task_name"
-    }
-  })]), _vm._v(" "), _c("button", {
-    attrs: {
-      type: "submit"
-    }
-  }, [_vm._v("追加する")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
