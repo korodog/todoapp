@@ -12,6 +12,21 @@
                 comp_tasks: [],
                 task_name: '',
                 delete_check: [],
+                isValidated: {
+                    task_name: false
+                },
+                validationConditions: {
+                    max: 40
+                },
+                validationErrorMessages: {
+                    max: "40文字以下で書いて下さい。",
+                    required: "文字を入力して下さい。",
+                },
+                validationErrorMessage: {
+                    task_name: null
+                },
+                canSubmit: false,
+                countMessage: ""
             }
         },
         mounted() {
@@ -76,7 +91,35 @@
                 console.info(error)
                 })
             },
-        }        
+
+            cantSubmit() {
+                if(this.task_name == ''){
+                    return canSubmit = true;
+                }
+            },
+        },
+        watch: {
+        task_name: function(newTask_name, oldTask_name) {
+            if (this.task_name == '' || !this.task_name.match(/\S/g)) {
+                this.validationErrorMessage.task_name = this.validationErrorMessages.required;
+                this.isValidated.task_name = false;
+                this.canSubmit = false;
+                return;
+            }
+            if (this.task_name.length > this.validationConditions.max) {
+                this.validationErrorMessage.task_name = this.validationErrorMessages.max;
+                this.isValidated.task_name = false;
+                this.canSubmit = false;
+                return;
+            }
+
+            this.validationErrorMessage.task_name = null;
+            this.isValidated.task_name = true;
+            this.canSubmit = true;
+            this.countMessage = "残り" + (this.validationConditions.max-this.task_name.length) + "文字まで入力可能です。"
+            return;
+        }
+    },    
     }
 </script>
 <template>
@@ -106,7 +149,9 @@
                 <label>
                     <input type="text" placeholder="今日やることを記入して下さい。" name="task_name" v-model="task_name">
                 </label>
-                <button @click="add_task()" type="submit">追加する</button>
+                <button @click="add_task()" type="submit" :disabled="!canSubmit">追加する</button>
+                <div v-if="!isValidated.task_name" v-text="validationErrorMessage.task_name"></div>
+                <div v-if="isValidated.task_name" v-text="countMessage"></div>
             </div>
         </form>
         <span>完了済みタスクを表示</span><input type="checkbox" v-model="comp_check">

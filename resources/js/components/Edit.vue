@@ -9,6 +9,21 @@
                 auth: [],
                 authCheck: [],
                 task_name: '',
+                isValidated: {
+                    task_name: false
+                },
+                validationConditions: {
+                    max: 40
+                },
+                validationErrorMessages: {
+                    max: "40文字以下で書いて下さい。",
+                    required: "文字を入力して下さい。",
+                },
+                validationErrorMessage: {
+                    task_name: null
+                },
+                canSubmit: false,
+                countMessage: ""
             }
         },
         mounted() {
@@ -42,7 +57,29 @@
                 console.info(error)
                 })
             },
-        }        
+        },
+        watch: {
+        task_name: function(newTask_name, oldTask_name) {
+            if (this.task_name == '' || !this.task_name.match(/\S/g)) {
+                this.validationErrorMessage.task_name = this.validationErrorMessages.required;
+                this.isValidated.task_name = false;
+                this.canSubmit = false;
+                return;
+            }
+            if (this.task_name.length > this.validationConditions.max) {
+                this.validationErrorMessage.task_name = this.validationErrorMessages.max;
+                this.isValidated.task_name = false;
+                this.canSubmit = false;
+                return;
+            }
+
+            this.validationErrorMessage.task_name = null;
+            this.isValidated.task_name = true;
+            this.canSubmit = true;
+            this.countMessage = "残り" + (this.validationConditions.max-this.task_name.length) + "文字まで入力可能です。"
+            return;
+        }
+    },     
     }
 </script>
 <template>
@@ -70,6 +107,8 @@
                         <label>
                             <input type="text" name="task_name" v-model="task_name">
                         </label>
+                        <div v-if="!isValidated.task_name" v-text="validationErrorMessage.task_name"></div>
+                        <div v-if="isValidated.task_name" v-text="countMessage"></div>
                         </div>
                         <div class="editBack1">
                             <div class="editBack2">
@@ -80,7 +119,7 @@
                             </div>
                             </div>
                             <div class="goEdit">
-                            <button @click="update(task.id)">
+                            <button @click="update(task.id)" :disabled="!canSubmit">
                                 編集する
                             </button>
                             </div>

@@ -111,12 +111,9 @@ class TaskController extends Controller
 
         foreach($request->select_data as $val)
         {
+            log::debug($val);
             Task::where('id', $val)->delete();
         }
-
-        Task::where('id', $request->id)->delete();
-
-        return redirect('/');
     }
 
     

@@ -5323,7 +5323,22 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       auth: [],
       authCheck: [],
-      task_name: ''
+      task_name: '',
+      isValidated: {
+        task_name: false
+      },
+      validationConditions: {
+        max: 40
+      },
+      validationErrorMessages: {
+        max: "40文字以下で書いて下さい。",
+        required: "文字を入力して下さい。"
+      },
+      validationErrorMessage: {
+        task_name: null
+      },
+      canSubmit: false,
+      countMessage: ""
     };
   },
   mounted: function mounted() {
@@ -5350,6 +5365,27 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.info(error);
       });
+    }
+  },
+  watch: {
+    task_name: function task_name(newTask_name, oldTask_name) {
+      if (this.task_name == '' || !this.task_name.match(/\S/g)) {
+        this.validationErrorMessage.task_name = this.validationErrorMessages.required;
+        this.isValidated.task_name = false;
+        this.canSubmit = false;
+        return;
+      }
+      if (this.task_name.length > this.validationConditions.max) {
+        this.validationErrorMessage.task_name = this.validationErrorMessages.max;
+        this.isValidated.task_name = false;
+        this.canSubmit = false;
+        return;
+      }
+      this.validationErrorMessage.task_name = null;
+      this.isValidated.task_name = true;
+      this.canSubmit = true;
+      this.countMessage = "残り" + (this.validationConditions.max - this.task_name.length) + "文字まで入力可能です。";
+      return;
     }
   }
 });
@@ -5380,7 +5416,22 @@ __webpack_require__.r(__webpack_exports__);
       comp_check: false,
       comp_tasks: [],
       task_name: '',
-      delete_check: []
+      delete_check: [],
+      isValidated: {
+        task_name: false
+      },
+      validationConditions: {
+        max: 40
+      },
+      validationErrorMessages: {
+        max: "40文字以下で書いて下さい。",
+        required: "文字を入力して下さい。"
+      },
+      validationErrorMessage: {
+        task_name: null
+      },
+      canSubmit: false,
+      countMessage: ""
     };
   },
   mounted: function mounted() {
@@ -5427,6 +5478,32 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.info(error);
       });
+    },
+    cantSubmit: function cantSubmit() {
+      if (this.task_name == '') {
+        return canSubmit = true;
+      }
+    }
+  },
+  watch: {
+    task_name: function task_name(newTask_name, oldTask_name) {
+      if (this.task_name == '' || !this.task_name.match(/\S/g)) {
+        this.validationErrorMessage.task_name = this.validationErrorMessages.required;
+        this.isValidated.task_name = false;
+        this.canSubmit = false;
+        return;
+      }
+      if (this.task_name.length > this.validationConditions.max) {
+        this.validationErrorMessage.task_name = this.validationErrorMessages.max;
+        this.isValidated.task_name = false;
+        this.canSubmit = false;
+        return;
+      }
+      this.validationErrorMessage.task_name = null;
+      this.isValidated.task_name = true;
+      this.canSubmit = true;
+      this.countMessage = "残り" + (this.validationConditions.max - this.task_name.length) + "文字まで入力可能です。";
+      return;
     }
   }
 });
@@ -5486,11 +5563,22 @@ var render = function render() {
         _vm.task_name = $event.target.value;
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), !_vm.isValidated.task_name ? _c("div", {
+    domProps: {
+      textContent: _vm._s(_vm.validationErrorMessage.task_name)
+    }
+  }) : _vm._e(), _vm._v(" "), _vm.isValidated.task_name ? _c("div", {
+    domProps: {
+      textContent: _vm._s(_vm.countMessage)
+    }
+  }) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "editBack1"
   }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "goEdit"
   }, [_c("button", {
+    attrs: {
+      disabled: !_vm.canSubmit
+    },
     on: {
       click: function click($event) {
         return _vm.update(_vm.task.id);
@@ -5578,14 +5666,23 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("button", {
     attrs: {
-      type: "submit"
+      type: "submit",
+      disabled: !_vm.canSubmit
     },
     on: {
       click: function click($event) {
         return _vm.add_task();
       }
     }
-  }, [_vm._v("追加する")])])]), _vm._v(" "), _c("span", [_vm._v("完了済みタスクを表示")]), _c("input", {
+  }, [_vm._v("追加する")]), _vm._v(" "), !_vm.isValidated.task_name ? _c("div", {
+    domProps: {
+      textContent: _vm._s(_vm.validationErrorMessage.task_name)
+    }
+  }) : _vm._e(), _vm._v(" "), _vm.isValidated.task_name ? _c("div", {
+    domProps: {
+      textContent: _vm._s(_vm.countMessage)
+    }
+  }) : _vm._e()])]), _vm._v(" "), _c("span", [_vm._v("完了済みタスクを表示")]), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
