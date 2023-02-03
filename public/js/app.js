@@ -5574,7 +5574,7 @@ var render = function render() {
   }) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "editBack1"
   }, [_vm._m(1), _vm._v(" "), _c("div", {
-    staticClass: "goEdit"
+    "class": [_vm.canSubmit ? "goEdit" : "cantEdit"]
   }, [_c("button", {
     attrs: {
       disabled: !_vm.canSubmit
@@ -5675,6 +5675,9 @@ var render = function render() {
       }
     }
   }, [_vm._v("追加する")]), _vm._v(" "), !_vm.isValidated.task_name ? _c("div", {
+    staticStyle: {
+      color: "red"
+    },
     domProps: {
       textContent: _vm._s(_vm.validationErrorMessage.task_name)
     }
@@ -5682,7 +5685,11 @@ var render = function render() {
     domProps: {
       textContent: _vm._s(_vm.countMessage)
     }
-  }) : _vm._e()])]), _vm._v(" "), _c("span", [_vm._v("完了済みタスクを表示")]), _c("input", {
+  }) : _vm._e()])]), _vm._v(" "), _c("span", {
+    staticStyle: {
+      "margin-left": "20px"
+    }
+  }, [_vm._v("完了済みタスクを表示")]), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5722,6 +5729,9 @@ var render = function render() {
       }
     }
   }, [_c("button", {
+    staticStyle: {
+      "margin-left": "20px"
+    },
     attrs: {
       type: "submit"
     }
@@ -5859,7 +5869,7 @@ var render = function render() {
         type: "submit"
       }
     }, [_vm._v("\n                                                    削除\n                                                ")])])])])])]);
-  }), 0)])])])])]) : _c("div", [_c("p", [_vm._v("※ログインして下さい。")])]), _vm._v(" "), _vm._m(4)]);
+  }), 0)])])])])]) : _c("div", [_c("p", [_vm._v("※ログインして下さい。")]), _vm._v(" "), _c("p", [_vm._v("テスト用 mail:test@test PW:test1234")])]), _vm._v(" "), _vm._m(4)]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

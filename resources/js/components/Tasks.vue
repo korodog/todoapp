@@ -150,14 +150,14 @@
                     <input type="text" placeholder="今日やることを記入して下さい。" name="task_name" v-model="task_name">
                 </label>
                 <button @click="add_task()" type="submit" :disabled="!canSubmit">追加する</button>
-                <div v-if="!isValidated.task_name" v-text="validationErrorMessage.task_name"></div>
+                <div v-if="!isValidated.task_name" v-text="validationErrorMessage.task_name" style="color: red"></div>
                 <div v-if="isValidated.task_name" v-text="countMessage"></div>
             </div>
         </form>
-        <span>完了済みタスクを表示</span><input type="checkbox" v-model="comp_check">
+        <span style="margin-left: 20px;">完了済みタスクを表示</span><input type="checkbox" v-model="comp_check">
         <div v-if="comp_check" class="delete">
             <form @click="select_delete(delete_check)">
-                <button type="submit">
+                <button type="submit" style="margin-left: 20px">
                     まとめて削除
                 </button>
             </form>
@@ -257,6 +257,7 @@
         </div>
             <div v-else="authCheck">
                 <p>※ログインして下さい。</p>
+                <p>テスト用 mail:test@test PW:test1234</p>
             </div>
         <footer>
             <p class="footerTitle">Todoアプリ</p>

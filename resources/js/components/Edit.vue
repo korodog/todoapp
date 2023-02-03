@@ -118,7 +118,7 @@
                             </a>
                             </div>
                             </div>
-                            <div class="goEdit">
+                            <div :class="[canSubmit ? 'goEdit' : 'cantEdit']">
                             <button @click="update(task.id)" :disabled="!canSubmit">
                                 編集する
                             </button>

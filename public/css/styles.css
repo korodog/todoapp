@@ -49,8 +49,8 @@ body {
 }
 
 footer {
-    position: absolute;
-    bottom:0%;
+    position: fixed;
+    bottom:0;
     width: 100%;
     height: 56px;
     background-color: rgb(0, 64, 107);
@@ -114,8 +114,25 @@ footer {
     color: white;
 }
 
+.cantEdit {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.cantEdit button{
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    font-size: 1.2em;
+    background-color:gray;
+    color: white;   
+}
+
 .taskTable1 {
     margin: 10px;
+    padding-bottom: 60px;
 }
 
 .taskTable2 {
